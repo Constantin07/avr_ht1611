@@ -14,6 +14,9 @@
 #include <util/delay.h>
 #include "ht1611.h"
 
+static void on(uint8_t bit);
+static void off(uint8_t bit);
+
 void ht1611_init(void)
 {
     HT_PORT_DIR |= (_BV(DI) | _BV(SK));     // configure DI and SK pins as outputs
@@ -21,7 +24,7 @@ void ht1611_init(void)
     _delay_ms(POWER_ON_DELAY_MS);           // allow LCD enough time to initialize
 }
 
-void ht1611_display_char(char chr)
+void ht1611_display_char(unsigned char chr)
 {
     int8_t i;
     // Map supported ASCII characters to LCD data codes, comment out lines not needed
@@ -49,7 +52,7 @@ void ht1611_display_char(char chr)
     _delay_us(TC_TIME_US);          // wait for inter digit delay		
 }
 
-void ht1611_display_str(char *s)
+void ht1611_display_str(unsigned char *s)
 {
     while(*s)
     ht1611_display_char(*s++);
@@ -58,17 +61,19 @@ void ht1611_display_str(char *s)
 
 void ht1611_display_clear(void)
 {
-    int8_t digit;
-    for (digit = 0; digit < DIGITS_COUNT; digit++) {
+    uint8_t digit = DIGITS_COUNT;
+    do {
         ht1611_display_char(0);     // display blank character
+        digit--;
     }
+    while(digit);
     off(SK);                        // keep SK low to avoid LED switching to timer mode
 }
 
-inline void on(uint8_t bit) {
+void on(uint8_t bit) {
     HT_PORT |= _BV(bit);
 }
 
-inline void off(uint8_t bit) {
+void off(uint8_t bit) {
     HT_PORT &= ~_BV(bit);
 }

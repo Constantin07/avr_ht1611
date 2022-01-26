@@ -14,7 +14,7 @@
 #include <avr/pgmspace.h>
 #include "ht1611.h"
 
-const char Message[] PROGMEM = "1234567890-,=+./";	// store string in FLASH memory
+const unsigned char Message[] PROGMEM = "1234567890-,=+./";	// store string in FLASH memory
 
 int main(void)
 {

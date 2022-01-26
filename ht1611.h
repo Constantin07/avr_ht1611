@@ -13,10 +13,8 @@
 #define TC_TIME_US          5       // Inter digit time ( ?5us )
 
 void ht1611_init(void);
-void ht1611_display_char(char chr);
-void ht1611_display_str(char *s);
+void ht1611_display_char(unsigned char chr);
+void ht1611_display_str(unsigned char *s);
 void ht1611_display_clear(void);
-void on(uint8_t bit);
-void off(uint8_t bit);
 
 #endif /* _HT1611_ */
